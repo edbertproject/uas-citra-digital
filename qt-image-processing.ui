@@ -342,7 +342,10 @@
      <string>LAB</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="inversButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -386,7 +389,7 @@
      <string>Filtering</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="smoothButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -399,7 +402,7 @@
      <string>SMOOTH</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="sharpButton">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -443,7 +446,7 @@
      <string>Edge Detection</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="prewittButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -456,7 +459,7 @@
      <string>PREWITT</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="sobelButton">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -469,7 +472,7 @@
      <string>SOBEL</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="robertsButton">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -482,7 +485,7 @@
      <string>ROBERTS</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="boundingBoxButton">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -495,7 +498,7 @@
      <string>BOUNDING BOX</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
+   <widget class="QPushButton" name="countButton">
     <property name="geometry">
      <rect>
       <x>930</x>
@@ -547,7 +550,7 @@
      <string>Luas : </string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="luasEdit">
     <property name="geometry">
      <rect>
       <x>890</x>
@@ -555,6 +558,9 @@
       <width>113</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -575,7 +581,7 @@
      <string>Keliling : </string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="kelilingEdit">
     <property name="geometry">
      <rect>
       <x>890</x>
@@ -583,6 +589,9 @@
       <width>113</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_11">
@@ -616,7 +625,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="QPlainTextEdit" name="chainCodeEdit">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -626,7 +635,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_9">
+   <widget class="QPushButton" name="chainCodeButton">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -657,7 +666,7 @@
      <string>Center of Gravity</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_10">
+   <widget class="QPushButton" name="centerGravityButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -699,6 +708,42 @@
     </property>
     <property name="text">
      <string>Reset Image</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>250</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>cm</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>280</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>cm</string>
     </property>
    </widget>
   </widget>
@@ -753,7 +798,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/open.png</normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/open.png</iconset>
+     <normaloff>open.png</normaloff>open.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -762,7 +807,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/save.png</normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/save.png</iconset>
+     <normaloff>save.png</normaloff>save.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -771,7 +816,7 @@
   <action name="actionPrint">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/print.png</normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/print.png</iconset>
+     <normaloff>print.png</normaloff>print.png</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -780,7 +825,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Quit.png</normaloff>../../../../download/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Image-Processing-with-OpenCV-Python-and-PyQt5-master/Quit.png</iconset>
+     <normaloff>Quit.png</normaloff>Quit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
