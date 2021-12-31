@@ -52,8 +52,8 @@ class LoadQt(QMainWindow):
         self.inversButton.clicked.connect(self.invers)
         
         # Filtering
-        self.smoothButton.clicked.connect(self.smooth)
-        self.sharpButton.clicked.connect(self.sharp)
+        self.smoothSlider.valueChanged.connect(self.smooth)
+        self.sharpSlider.valueChanged.connect(self.sharp)
 
         # Edge Detection
         self.prewittButton.clicked.connect(self.prewitt)
@@ -78,8 +78,8 @@ class LoadQt(QMainWindow):
             self.grayscaleButton.setEnabled(False)
             self.inversButton.setEnabled(False)
 
-            self.smoothButton.setEnabled(False)
-            self.sharpButton.setEnabled(False)
+            self.smoothSlider.setEnabled(False)
+            self.sharpSlider.setEnabled(False)
 
             self.prewittButton.setEnabled(False)
             self.sobelButton.setEnabled(False)
@@ -118,8 +118,8 @@ class LoadQt(QMainWindow):
         self.grayscaleButton.setEnabled(True)
         self.inversButton.setEnabled(True)
         
-        self.smoothButton.setEnabled(True)
-        self.sharpButton.setEnabled(True)
+        self.smoothSlider.setEnabled(True)
+        self.sharpSlider.setEnabled(True)
 
         self.prewittButton.setEnabled(True)
         self.sobelButton.setEnabled(True)
@@ -232,7 +232,7 @@ class LoadQt(QMainWindow):
     def rotate(self, angle):
         self.image = self.originalImage
         rows, cols, steps = self.image.shape
-        M = cv2.getRotationMatrix2D((cols / 2, rows / 2), angle, 1)
+        M = cv2.getRotationMatrix2D((cols / 2, rows / 2), -angle, 1)
         self.image = cv2.warpAffine(self.image, M, (cols, rows))
         self.display_image()
 
@@ -268,17 +268,19 @@ class LoadQt(QMainWindow):
         self.display_image()
 
 # Filtering
-    def smooth(self):
+    def smooth(self, c):
         self.image = self.originalImage
-        self.image = cv2.blur(self.image,(5,5))
+        self.image = cv2.blur(self.image,(c,c))
         self.display_image()
     
-    def sharp(self):
+    def sharp(self, c):
         self.image = self.originalImage
         kernel =  np.array([[0, -1, 0], 
                             [-1, 5, -1], 
                             [0, -1, 0]])
-        self.image = cv2.filter2D(src=self.image, ddepth=-1, kernel=kernel)
+        for i in range(c-1):                           
+            self.image = cv2.filter2D(src=self.image, ddepth=-1, kernel=kernel)
+
         self.display_image()
 
 # Edge Detection
@@ -363,7 +365,7 @@ class LoadQt(QMainWindow):
 
         x,y,w,h = cv2.boundingRect(thresh)
         
-        cv2.rectangle(self.image, (x, y), (x + w, y + h), (36,255,12), 2)
+        cv2.rectangle(self.image, (x, y), (x + w, y + h), (240,0,0), 1)
 
         panjang = w - x
         lebar = h - y

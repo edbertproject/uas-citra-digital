@@ -127,10 +127,13 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>480</y>
+      <y>510</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
@@ -143,7 +146,7 @@
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>10</y>
+      <y>-20</y>
       <width>20</width>
       <height>631</height>
      </rect>
@@ -299,6 +302,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>RGB</string>
     </property>
@@ -311,6 +317,9 @@
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>GRAYSCALE</string>
@@ -325,6 +334,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>HSV</string>
     </property>
@@ -337,6 +349,9 @@
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>LAB</string>
@@ -354,6 +369,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>INVERS</string>
     </property>
@@ -362,7 +380,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>210</y>
+      <y>240</y>
       <width>241</width>
       <height>20</height>
      </rect>
@@ -389,37 +407,11 @@
      <string>Filtering</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="smoothButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>SMOOTH</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="sharpButton">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>170</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>SHARP</string>
-    </property>
-   </widget>
    <widget class="Line" name="line_9">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
+      <y>370</y>
       <width>241</width>
       <height>20</height>
      </rect>
@@ -432,7 +424,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>230</y>
+      <y>260</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -450,10 +442,13 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>290</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>PREWITT</string>
@@ -463,10 +458,13 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>260</y>
+      <y>290</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>SOBEL</string>
@@ -476,10 +474,13 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>260</y>
+      <y>290</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>ROBERTS</string>
@@ -489,10 +490,13 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>300</y>
+      <y>330</y>
       <width>91</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>BOUNDING BOX</string>
@@ -506,6 +510,9 @@
       <width>75</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>COUNT</string>
@@ -644,6 +651,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>SHOW</string>
     </property>
@@ -652,7 +662,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
+      <y>390</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -670,10 +680,13 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>420</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>SHOW</string>
@@ -683,7 +696,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>430</y>
+      <y>460</y>
       <width>241</width>
       <height>20</height>
      </rect>
@@ -696,7 +709,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>450</y>
+      <y>480</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -744,6 +757,103 @@
     </property>
     <property name="text">
      <string>cm</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="smoothSlider">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>170</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>25</number>
+    </property>
+    <property name="singleStep">
+     <number>2</number>
+    </property>
+    <property name="pageStep">
+     <number>2</number>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>47</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SMOOTH</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="sharpSlider">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>210</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>5</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="pageStep">
+     <number>5</number>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>210</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>SHARP</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
