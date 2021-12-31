@@ -1,3 +1,5 @@
+import copy
+
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
@@ -5,14 +7,10 @@ from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.uic import loadUi
-from butterworth import Butter
 import sys
 import cv2
 import imutils
 import numpy as np
-import scipy.signal as sig
-import scipy.ndimage as ndi
-import matplotlib.pyplot as plt
 
 # =====================================================================================
 # 
@@ -40,7 +38,7 @@ class LoadQt(QMainWindow):
         self.rotateDial.valueChanged.connect(self.rotate)
         self.scaleSlider.valueChanged.connect(self.scale)
         self.brightnessSlider.valueChanged.connect(self.brightness)
-        self.contrastSlider.valueChanged.connect(self.scale)
+        self.contrastSlider.valueChanged.connect(self.contrast)
         self.countButton.clicked.connect(self.count)
         # self.chainCodeButton.valueChanged.connect(self.chainCode)
 
@@ -64,7 +62,7 @@ class LoadQt(QMainWindow):
         self.boundingBoxButton.clicked.connect(self.boundingBox)
         
         # Center of Gravity
-        # self.centerGravityButton.clicked.connect(self.smooth)
+        self.centerGravityButton.clicked.connect(self.centerOfGravity)
         
 
         # Reset Image
@@ -156,11 +154,13 @@ class LoadQt(QMainWindow):
         # image.shape[2] store the number of channels representing each pixel
         img = img.rgbSwapped()  # efficiently convert an RGB image to a BGR image.
         self.imageCanvas.setPixmap(QPixmap.fromImage(img))
-        self.imageCanvas.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter) # Align the position of the image on the label
+
+        # Align the position of the image on the label
+        self.imageCanvas.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
     # Filling Method
     def open_image(self):
-        fname, filter = QFileDialog.getOpenFileName(self, 'Open File', 'C:\\Users\\Edbert\\Pictures',"Image Files (*)")
+        fname, filter = QFileDialog.getOpenFileName(self, 'Open File', 'C:\\Users\\Edbert\\Pictures',"Image Files (*.bmp)")
         if fname:
             self.load_image(fname)
         else:
@@ -238,22 +238,33 @@ class LoadQt(QMainWindow):
 
     def scale(self, c):
         self.image = self.originalImage
-        self.image = cv2.resize(self.image, None, fx=c, fy=c, interpolation=cv2.INTER_CUBIC)
+        width = int(self.image.shape[1] * c / 100)
+        height = int(self.image.shape[0] * c / 100)
+        dim = (width, height)
+        self.image = cv2.resize(self.image, dim, interpolation=cv2.INTER_AREA)
         self.display_image()
 
-
-# Brightness and Contrast
+# Brightness
     def brightness(self, c):
         self.image = self.originalImage
-        hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
-        h, s, v = cv2.split(hsv)
+        if c > 0:
+            shadow = c
+            highlight = 255
+        else:
+            shadow = 0
+            highlight = 255 + c
+        alpha_b = (highlight - shadow) / 255
+        gamma_b = shadow
+        self.image = cv2.addWeighted(self.image, alpha_b, self.image, 0, gamma_b)
+        self.display_image()
 
-        lim = 255 - c
-        v[v > lim] = 255
-        v[v <= lim] += c
-
-        final_hsv = cv2.merge((h, s, v))
-        self.image = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+# Contrast
+    def contrast(self, c):
+        self.image = self.originalImage
+        f = float(131 * (c + 127)) / (127 * (131 - c))
+        alpha_c = f
+        gamma_c = 127 * (1 - f)
+        self.image = cv2.addWeighted(self.image, alpha_c, self.image, 0, gamma_c)
         self.display_image()
 
 # Filtering
@@ -272,7 +283,7 @@ class LoadQt(QMainWindow):
 
 # Edge Detection
     def boundingBox(self):
-        self.image = self.originalImage
+        self.image = copy.deepcopy(self.originalImage)
         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (5,5), 0)
         thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -345,7 +356,7 @@ class LoadQt(QMainWindow):
 
 # Area and Perimeter
     def count(self):
-        self.image = self.originalImage
+        self.image = copy.deepcopy(self.originalImage)
         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (5,5), 0)
         thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -367,6 +378,32 @@ class LoadQt(QMainWindow):
 
         self.luasEdit.setText(str(round(luas)))
         self.kelilingEdit.setText(str(round(keliling)))
+
+        self.display_image()
+
+# Center Of Gravity
+    def centerOfGravity(self):
+        self.image = copy.deepcopy(self.originalImage)
+
+        gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+
+        blur = cv2.GaussianBlur(gray, (5, 5), cv2.BORDER_DEFAULT)
+        ret, thresh = cv2.threshold(blur, 100, 255, cv2.THRESH_BINARY_INV)
+
+        contours, hierarchies = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+        blank = np.zeros(thresh.shape[:2], dtype='uint8')
+
+        cv2.drawContours(blank, contours, -1, (255, 0, 0), 1)
+
+        for i in contours:
+            M = cv2.moments(i)
+            if M['m00'] != 0:
+                cx = int(M['m10'] / M['m00'])
+                cy = int(M['m01'] / M['m00'])
+                cv2.drawContours(self.image, [i], -1, (0, 255, 0), 2)
+                cv2.circle(self.image, (cx, cy), 7, (0, 0, 255), -1)
+                cv2.putText(self.image, "center", (cx - 20, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
         self.display_image()
 
