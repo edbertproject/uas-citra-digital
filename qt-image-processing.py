@@ -25,6 +25,8 @@ class LoadQt(QMainWindow):
         # Declare variable
         self.originalImage = None
         self.image = None
+        self.chains = ''
+        self.bitmap_chain = []
         
         # init Toolbar and Menubar button
         self.actionOpen.triggered.connect(self.open_image)
@@ -40,7 +42,7 @@ class LoadQt(QMainWindow):
         self.brightnessSlider.valueChanged.connect(self.brightness)
         self.contrastSlider.valueChanged.connect(self.contrast)
         self.countButton.clicked.connect(self.count)
-        # self.chainCodeButton.valueChanged.connect(self.chainCode)
+        self.chainCodeButton.clicked.connect(self.chain)
 
 # ==========================================================================================
         # Left Bar
@@ -356,6 +358,89 @@ class LoadQt(QMainWindow):
 
         self.display_image()
 
+    def chain(self):
+        self.image = copy.deepcopy(self.originalImage)
+        gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, 100, 200)
+
+        white_pixels = np.array(np.where(edges == 255))
+        first_white_pixels = white_pixels[:, 0]
+        starting_point = first_white_pixels
+
+        x = starting_point[0]
+        y = starting_point[1]
+
+        self.bitmap_chain = np.zeros_like(edges)
+        self.bitmap_chain[x][y] = 9
+
+        self.searchChainCode(edges, x, y)
+        self.chainCodeEdit.setPlainText(str(self.chains))
+
+    def searchChainCode(self, img, x, y):
+        if (img[x][y + 1] == 255):
+            if (self.bitmap_chain[x][y + 1] == 0):
+                self.chains = self.chains + '1'
+                newX = x
+                newY = y + 1
+                self.bitmap_chain[x][y + 1] = 1
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x - 1][y] == 255):
+            if (self.bitmap_chain[x - 1][y] == 0):
+                self.chains = self.chains + '3'
+                newX = x - 1
+                newY = y
+                self.bitmap_chain[x - 1][y] = 3
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x][y - 1] == 255):
+            if (self.bitmap_chain[x][y - 1] == 0):
+                self.chains = self.chains + '5'
+                newX = x
+                newY = y - 1
+                self.bitmap_chain[x][y - 1] = 5
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x + 1][y] == 255):
+            if (self.bitmap_chain[x + 1][y] == 0):
+                self.chains = self.chains + '7'
+                newX = x + 1
+                newY = y
+                self.bitmap_chain[x + 1][y] = 7
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x - 1][y + 1] == 255):
+            if (self.bitmap_chain[x - 1][y + 1] == 0):
+                self.chains = self.chains + '2'
+                newX = x - 1
+                newY = y + 1
+                self.bitmap_chain[x - 1][y + 1] = 2
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x - 1][y - 1] == 255):
+            if (self.bitmap_chain[x - 1][y - 1] == 0):
+                self.chains = self.chains + '4'
+                newX = x - 1
+                newY = y - 1
+                self.bitmap_chain[x - 1][y - 1] = 4
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x + 1][y - 1] == 255):
+            if (self.bitmap_chain[x + 1][y - 1] == 0):
+                self.chains = self.chains + '6'
+                newX = x + 1
+                newY = y - 1
+                self.bitmap_chain[x + 1][y - 1] = 6
+                self.searchChainCode(img, newX, newY)
+
+        if (img[x + 1][y + 1] == 255):
+            if (self.bitmap_chain[x + 1][y + 1] == 0):
+                self.chains = self.chains + '8'
+                newX = x + 1
+                newY = y + 1
+                self.bitmap_chain[x + 1][y + 1] = 8
+                self.searchChainCode(img, newX, newY)
+
 # Area and Perimeter
     def count(self):
         self.image = copy.deepcopy(self.originalImage)
@@ -408,6 +493,78 @@ class LoadQt(QMainWindow):
                 cv2.putText(self.image, "center", (cx - 20, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
         self.display_image()
+
+
+class ChainWrapper:
+    chains = ''
+    bitmap_chains = []
+
+    def search_chain(self, img, x, y):
+
+        if img[x][y + 1] == 255:
+            if self.bitmap_chains[x][y + 1] == 0:
+                self.chains = self.chains + '1'
+                newx = x
+                newy = y + 1
+                self.bitmap_chains[x][y + 1] = 1
+                self.search_chain(img, newx, newy)
+
+        if img[x - 1][y] == 255:
+            if (self.bitmap_chains[x - 1][y] == 0):
+                self.chains = self.chains + '3'
+                newx = x - 1
+                newy = y
+                self.bitmap_chains[x - 1][y] = 3
+                self.search_chain(img, newx, newy)
+
+        if img[x][y - 1] == 255:
+            if self.bitmap_chains[x][y - 1] == 0:
+                self.chains = self.chains + '5'
+                newx = x
+                newy = y - 1
+                self.bitmap_chains[x][y - 1] = 5
+                self.search_chain(img, newx, newy)
+
+        if img[x + 1][y] == 255:
+            if self.bitmap_chains[x + 1][y] == 0:
+                self.chains = self.chains + '7'
+                newx = x + 1
+                newy = y
+                self.bitmap_chains[x + 1][y] = 7
+                self.search_chain(img, newx, newy)
+
+        if img[x - 1][y + 1] == 255:
+            if self.bitmap_chains[x - 1][y + 1] == 0:
+                self.chains = self.chains + '2'
+                newx = x - 1
+                newy = y + 1
+                self.bitmap_chains[x - 1][y + 1] = 2
+                self.search_chain(img, newx, newy)
+
+        if img[x - 1][y - 1] == 255:
+            if self.bitmap_chains[x - 1][y - 1] == 0:
+                self.chains = self.chains + '4'
+                newx = x - 1
+                newy = y - 1
+                self.bitmap_chains[x - 1][y - 1] = 4
+                self.search_chain(img, newx, newy)
+
+        if img[x + 1][y - 1] == 255:
+            if self.bitmap_chains[x + 1][y - 1] == 0:
+                self.chains = self.chains + '6'
+                newx = x + 1
+                newy = y - 1
+                self.bitmap_chains[x + 1][y - 1] = 6
+                self.search_chain(img, newx, newy)
+
+        if img[x + 1][y + 1] == 255:
+            if self.bitmap_chains[x + 1][y + 1] == 0:
+                self.chains = self.chains + '8'
+                newx = x + 1
+                newy = y + 1
+                self.bitmap_chains[x + 1][y + 1] = 8
+                self.search_chain(img, newx, newy)
+
 
 # ===============================================================================================
 app = QApplication(sys.argv)
